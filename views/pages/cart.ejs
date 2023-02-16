@@ -1,0 +1,61 @@
+<%- include("./partials/header") -%>
+
+<!-- Cart Page -->
+<div  class="container">
+    <div class="row">
+        <div class="cart-page">
+            <h1 style="margin-top: 50px;">My Cart</h1>
+            <table class="cart-table">
+            <thead>
+                <tr>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <% for (var i=0; i<theProduct.length; i++) { %>
+                    <tr>
+                    <td><img style="border-radius: 50%; width: 200px; height: 200px;" src= <%= theProduct[i].image %> alt="product"/></td>
+                    <td name ="name"> <%= theProduct[i].name %></td>
+                    <% if (theProduct[i].sales_price) { %>
+                        <td name="price" > <%= theProduct[i].sales_price %></td>
+                    <% } else { %>
+                        <td name="price" > <%= theProduct[i].price %></td>
+                    <% } %>
+                    
+                    <td>
+                        <form action="/cart_product" method="post">
+                            <input type="hidden" name="name" value = "<%= theProduct[i].name %>">
+                            <input type="hidden" name="price" value = "<%= theProduct[i].price %>">
+                            <button type="submit"  class="btn btn-info" name="submit" value="subtract"> - </button>
+                            <input type="text" name="quantity" value="<%= theProduct[i].quantity%>" min="0" style="width: 40px; height: 40px;">
+                            <button type="submit" class="btn btn-info" name="submit" value="add"> + </button>
+                            <input type="hidden" name="image" value = "<%= theProduct[i].image %>">
+                        </form>
+                       
+                
+                    </td>
+                    <td name="sub_total"><%= theProduct[i].subtotal %></td>
+                    <form action="/delete_cart" method="post">
+                    <input type="hidden" name="name" value = "<%= theProduct[i].name %>">
+                    <td><button type="submit" name="submit" value="remove" class="btn btn-primary">Remove</button></td>
+                    </form>
+                    </tr>
+                <% } %>
+                
+            </tbody>
+            </table>
+            <div class="cart-total">
+            <h2 name="total">Total: $<%= total %></h2>
+           
+            <a href="/" class="checkout-button" style="margin-bottom: 30px; display: inline-block;">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+  <%- include("./partials/footer") -%>
