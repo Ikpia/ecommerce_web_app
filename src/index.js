@@ -14,7 +14,8 @@ app.use(session({
     saveUninitialized: true
   }));
 
-
+const date = new Date();
+const year = date.getFullYear();
 const itemSchema = new mongoose.Schema({
     name : {
         type: String,
@@ -161,11 +162,9 @@ app.get('/', (req, res) => {
               });
           
         } else {
-            res.render('./pages/index', {allItems:docs});
-            //console.log(docs);
+            res.render('./pages/index', {allItems:docs, theYear:year});
         }
       })
-    console.log(req.session.cart)
     
 })
 
@@ -240,7 +239,7 @@ app.get('/cart', (req, res) => {
         if (err) {
             console.log(err);
         } else {
-            res.render('./pages/cart', {theProduct:results, total:sum});
+            res.render('./pages/cart', {theProduct:results, total:sum, theYear:year});
         }
     })
     
